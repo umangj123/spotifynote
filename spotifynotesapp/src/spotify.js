@@ -10,7 +10,7 @@ export async function redirectToAuthCodeFlow() {
   const params = new URLSearchParams();
   params.append("client_id", clientId);
   params.append("response_type", "code");
-  params.append("redirect_uri", "https://spotifynote.vercel.app/spotify");
+  params.append("redirect_uri", "https://unportal.vercel.app/spotify");
   params.append("scope", "user-read-private user-read-email playlist-read-private playlist-read-collaborative");
   params.append("code_challenge_method", "S256");
   params.append("code_challenge", challenge);
@@ -43,7 +43,7 @@ export async function getAccessToken(code) {
   params.append("client_id", clientId);
   params.append("grant_type", "authorization_code");
   params.append("code", code);
-  params.append("redirect_uri", "https://spotifynote.vercel.app/spotify");
+  params.append("redirect_uri", "https://unportal.vercel.app/spotify");
   params.append("code_verifier", verifier);
 
   const result = await fetch("https://accounts.spotify.com/api/token", {
