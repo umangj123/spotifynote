@@ -555,7 +555,7 @@ const saveNote = async (songId, songName, note, spotifyUser) => {
   const createNoteForSong = (songId, songName) => {
     const note = prompt('Enter a note for this song:');
     if (note) {
-      saveNote(songId, songName, note, profile.id);
+      saveNote(songId, songName, note, profile.display_name);
     }
   };
 
