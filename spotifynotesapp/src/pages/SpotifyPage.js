@@ -413,57 +413,102 @@ function SpotifyPage() {
   const code = new URLSearchParams(window.location.search).get('code');
   const accessToken = localStorage.getItem('accessToken');
 
-  useEffect(() => {
+//   useEffect(() => {
+//     console.log('code:', code);
+//     console.log('accessToken:', accessToken);
+  
+//     if (code) {
+//       // If the user is redirected with a code, get the access token
+//       console.log('Received code from URL:', code);
+//       getAccessToken(code).then(async (token) => {
+//         if (token) {
+//           console.log('Access token received:', token);
+//           localStorage.setItem('accessToken', token);
+  
+//           // Fetch the user profile and playlists after obtaining the token
+//           const userProfile = await fetchProfile(token);
+//           setProfile(userProfile);
+  
+//           if (!userProfile || !userProfile.images || userProfile.images.length === 0) {
+//             // If profile image is missing, redirect to the OAuth flow
+//             console.log('No Spotify profile connected, redirecting to OAuth');
+//             redirectToAuthCodeFlow();
+//           } else {
+//             fetchPlaylists(token).then((data) => setPlaylists(data.items));
+//           }
+          
+//           // Navigate to /spotify after successfully getting the profile data
+//           navigate('/spotify');
+//         } else {
+//           console.log('No access token found, navigating to feed');
+//           navigate('/feed');
+//         }
+//       });
+//     } else if (!accessToken) {
+//       // If there's no access token, initiate the OAuth flow
+//       console.log('No access token and no code, redirecting to OAuth flow');
+//       redirectToAuthCodeFlow();
+//     } else {
+//       // If access token is available, fetch the profile and playlists directly
+//       console.log('Access token found, fetching profile and playlists');
+//       fetchProfile(accessToken).then((userProfile) => {
+//         setProfile(userProfile);
+//         if (!userProfile || !userProfile.images || userProfile.images.length === 0) {
+//           // If profile image is missing, redirect to OAuth
+//           console.log('No Spotify profile connected, redirecting to OAuth');
+//           redirectToAuthCodeFlow();
+//         } else {
+//           fetchPlaylists(accessToken).then((data) => setPlaylists(data.items));
+//         }
+//       });
+//     }
+//   }, [code, accessToken, navigate]);
+useEffect(() => {
     console.log('code:', code);
     console.log('accessToken:', accessToken);
   
-    if (code) {
-      // If the user is redirected with a code, get the access token
-      console.log('Received code from URL:', code);
-      getAccessToken(code).then(async (token) => {
-        if (token) {
-          console.log('Access token received:', token);
-          localStorage.setItem('accessToken', token);
-  
-          // Fetch the user profile and playlists after obtaining the token
-          const userProfile = await fetchProfile(token);
-          setProfile(userProfile);
-  
-          if (!userProfile || !userProfile.images || userProfile.images.length === 0) {
-            // If profile image is missing, redirect to the OAuth flow
-            console.log('No Spotify profile connected, redirecting to OAuth');
-            redirectToAuthCodeFlow();
+    const handleAuth = async () => {
+      if (code) {
+        try {
+          const token = await getAccessToken(code);
+          if (token) {
+            const userProfile = await fetchProfile(token);
+            if (userProfile.error) {
+              throw new Error(userProfile.error.message);
+            }
+            setProfile(userProfile);
+            const playlistData = await fetchPlaylists(token);
+            setPlaylists(playlistData.items);
+            navigate('/spotify', { replace: true }); // Use replace to avoid browser back issues
           } else {
-            fetchPlaylists(token).then((data) => setPlaylists(data.items));
+            navigate('/feed');
           }
-          
-          // Navigate to /spotify after successfully getting the profile data
-          navigate('/spotify');
-        } else {
-          console.log('No access token found, navigating to feed');
-          navigate('/feed');
-        }
-      });
-    } else if (!accessToken) {
-      // If there's no access token, initiate the OAuth flow
-      console.log('No access token and no code, redirecting to OAuth flow');
-      redirectToAuthCodeFlow();
-    } else {
-      // If access token is available, fetch the profile and playlists directly
-      console.log('Access token found, fetching profile and playlists');
-      fetchProfile(accessToken).then((userProfile) => {
-        setProfile(userProfile);
-        if (!userProfile || !userProfile.images || userProfile.images.length === 0) {
-          // If profile image is missing, redirect to OAuth
-          console.log('No Spotify profile connected, redirecting to OAuth');
+        } catch (error) {
+          console.error("Auth error:", error);
+          localStorage.clear(); // Clear all auth data on error
           redirectToAuthCodeFlow();
-        } else {
-          fetchPlaylists(accessToken).then((data) => setPlaylists(data.items));
         }
-      });
-    }
-  }, [code, accessToken, navigate]);
+      } else if (!accessToken) {
+        redirectToAuthCodeFlow();
+      } else {
+        try {
+          const userProfile = await fetchProfile(accessToken);
+          if (userProfile.error) {
+            throw new Error(userProfile.error.message);
+          }
+          setProfile(userProfile);
+          const playlistData = await fetchPlaylists(accessToken);
+          setPlaylists(playlistData.items);
+        } catch (error) {
+          console.error("Profile fetch error:", error);
+          localStorage.clear();
+          redirectToAuthCodeFlow();
+        }
+      }
+    };
   
+    handleAuth();
+  }, [code, accessToken, navigate]);
 
 //   const saveNote = async (songId, note) => {
 //     const noteRef = doc(db, "notes", songId);
