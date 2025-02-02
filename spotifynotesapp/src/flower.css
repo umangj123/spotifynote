@@ -1,0 +1,260 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    background: #000;
+    font-family: Arial, sans-serif;
+  }
+  
+  .bouquet-container {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    overflow: visible;
+  }
+  
+  /* Vase styling */
+  .vase {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+  }
+  
+  .vase-body {
+    width: 140px;
+    height: 160px;
+    background: linear-gradient(45deg, #ff6c6c, #e20b0b);
+    border-radius: 10px 10px 40px 40px;
+    box-shadow: 
+      0 0 25px rgba(255,255,255,0.1),
+      inset 0 -10px 20px rgba(0,0,0,0.3);
+  }
+  
+  .vase-top {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 20px;
+    background: #4a4a4a;
+    border-radius: 5px;
+    box-shadow: 0 0 15px rgba(255,255,255,0.1);
+  }
+  
+  /* Flower styles */
+  .flower {
+    position: absolute;
+    bottom: 25%;
+    height: var(--flower-height, 40vh);
+    transform-origin: bottom center;
+    animation: float 4s ease-in-out infinite;
+    z-index: 2;
+  }
+  
+/* Add leaf styles */
+.leaves {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+  
+  .leaf {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.2));
+    animation: leafFloat 4s ease-in-out infinite;
+    transform-origin: center;
+  }
+  
+  @keyframes leafFloat {
+    0%, 100% { transform: rotate(-5deg) scale(1); }
+    50% { transform: rotate(5deg) scale(1.05); }
+  }
+  
+  /* Update stem to accommodate leaves */
+  .stem {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 4px;
+    height: 95%;
+    background: linear-gradient(to right, #228B22 0%, #32CD32 100%);
+    transform: translateX(-50%);
+    transform-origin: bottom;
+    animation: sway var(--sway-duration) ease-in-out infinite;
+    z-index: 1;
+  }
+  
+  
+  .petals {
+    position: absolute;
+    bottom: calc(100% - 5px);
+    left: 50%;
+    transform: translateX(-50%);
+    animation: rotate 15s linear infinite;
+    transform-origin: bottom center;
+    filter: drop-shadow(0 0 12px currentColor);
+    z-index: 2;
+  }
+  
+  /* Animations */
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    50% { transform: translateY(-20px) rotate(2deg); }
+  }
+  
+  @keyframes sway {
+    0%, 100% { transform: translateX(-50%) rotate(3deg); }
+    50% { transform: translateX(-50%) rotate(-3deg); }
+  }
+  
+  @keyframes rotate {
+    0% { transform: translateX(-50%) rotate(0deg); }
+    100% { transform: translateX(-50%) rotate(360deg); }
+  }
+  
+  /* Button styles */
+  .button-container {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+  }
+  
+  .message-button {
+    padding: 12px 25px;
+    font-size: 1.1em;
+    background: #ff4081;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(255,64,129,0.6);
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    max-width: 300px;
+  }
+  
+  .message-button.animating {
+    animation: pulse 1s infinite;
+  }
+  
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+  }
+  
+/* Envelope Styles */
+.envelope-wrapper {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1001;
+    width: 300px;
+    height: 200px;
+    perspective: 1000px;
+  }
+  
+  .envelope {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s ease-in-out;
+    cursor: pointer;
+  }
+  
+  /* Envelope flap */
+  .envelope::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #ff4081;
+    clip-path: polygon(0 0, 100% 0, 50% 50%);
+    z-index: 2;
+    transition: transform 0.6s ease-in-out;
+    transform-origin: top;
+  }
+  
+  /* Envelope body */
+  .envelope .body {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: #ff6b6b;
+    border-radius: 8px;
+    z-index: 1;
+  }
+  
+  /* Letter - Hidden initially */
+  .letter {
+    position: absolute;
+    width: 90%;
+    height: 85%;
+    background: #ffdbdb;
+    bottom: -100%;
+    left: 5%;
+    padding: 20px;
+    border-radius: 8px;
+    transition: all 0.6s 0.3s ease;
+    z-index: 0;
+    opacity: 0;
+  }
+  
+  .envelope.open .letter {
+    bottom: 0;
+    opacity: 1;
+    z-index: 3;
+  }
+  
+  .envelope.open::before {
+    transform: rotateX(180deg);
+    z-index: 0;
+  }
+  
+  /* Rest of the styles remain the same */
+  
+  .letter-content {
+    position: relative;
+    font-family: 'Courier New', monospace;
+    color: #333;
+  }
+
+  .letter-content h2 {
+    color: red;
+  }
+  
+  .close-btn {
+    position: relative;
+    top: 0.1px;
+    right: 0.1px;
+    background: #ff4081;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+  }
+  
+  /* Button Animation */
+  @keyframes envelopeBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  
+  .message-button.animating {
+    animation: envelopeBounce 1s infinite;
+  }

@@ -3,9 +3,11 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import LoginPage from './pages/LoginPage';
 import FeedPage from './pages/FeedPage';
 import SpotifyPage from './pages/SpotifyPage';
+import FlowerBouquet from './pages/FlowerBouquet';
 import { auth } from './firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import './styles.css';
+
 
 function App() {
   const [user, setUser] = useState(null);
@@ -29,6 +31,10 @@ function App() {
         <Route 
           path="/feed" 
           element={user ? <FeedPage /> : <Navigate to="/" />} 
+        />
+        <Route 
+          path="/nami" 
+          element={user ? <FlowerBouquet/> : <Navigate to="/" />} 
         />
         <Route
           path="/spotify"

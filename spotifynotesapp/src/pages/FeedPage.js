@@ -211,7 +211,7 @@ function FeedPage() {
         <ul>
           <li>
             <Link to="/spotify">Spotify</Link>
-            <Link>Nami Meri Jaan [Coming Soon]</Link>
+            <Link to="/nami">Nami Meri Jaan</Link>
           </li>
           <li>
             <button onClick={handleLogout}>Logout</button>
