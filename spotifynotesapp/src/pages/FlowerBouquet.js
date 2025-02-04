@@ -25,7 +25,7 @@ const FlowerBouquet = () => {
 
   useEffect(() => {
     const createFlowers = () => {
-      const newFlowers = Array.from({ length: 18 }).map((_, i) => ({
+      const newFlowers = Array.from({ length: 50 }).map((_, i) => ({
         id: i,
         left: Math.random() * 80 + 10,
         delay: Math.random() * 3,

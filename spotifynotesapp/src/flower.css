@@ -25,7 +25,7 @@ html, body {
   
   .vase-body {
     width: 140px;
-    height: 160px;
+    height: 190px;
     background: linear-gradient(45deg, #ff6c6c, #e20b0b);
     border-radius: 10px 10px 40px 40px;
     box-shadow: 
@@ -40,7 +40,7 @@ html, body {
     transform: translateX(-50%);
     width: 100px;
     height: 20px;
-    background: #4a4a4a;
+    background: #ffe4e4;
     border-radius: 5px;
     box-shadow: 0 0 15px rgba(255,255,255,0.1);
   }
@@ -83,7 +83,7 @@ html, body {
     bottom: 0;
     left: 50%;
     width: 4px;
-    height: 95%;
+    height: 90%;
     background: linear-gradient(to right, #228B22 0%, #32CD32 100%);
     transform: translateX(-50%);
     transform-origin: bottom;
