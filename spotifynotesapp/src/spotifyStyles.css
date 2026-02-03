@@ -104,16 +104,16 @@
   }
    */
 
-   /* General Layout */
+   /* General Layout – full width to match app */
    .spotify-container {
-    max-width: 900px;
+    width: 100%;
+    max-width: 1400px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 24px;
     background-color: #121212;
     color: #fff;
-    border-radius: 10px;
+    min-height: 100vh;
     overflow-y: auto;
-    height: 100vh;
   }
   
   /* Profile Section */

@@ -210,8 +210,10 @@ function FeedPage() {
       <nav>
         <ul>
           <li>
+            <Link to="/feed">Feed</Link>
             <Link to="/spotify">Spotify</Link>
-            <Link to="/nami">Nami Meri Jaan</Link>
+            <Link to="/vday25">V-Day 2025</Link>
+            <Link to="/vday2026">V-Day 2026</Link>
           </li>
           <li>
             <button onClick={handleLogout}>Logout</button>

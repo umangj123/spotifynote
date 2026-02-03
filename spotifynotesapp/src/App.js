@@ -4,6 +4,7 @@ import LoginPage from './pages/LoginPage';
 import FeedPage from './pages/FeedPage';
 import SpotifyPage from './pages/SpotifyPage';
 import FlowerBouquet from './pages/FlowerBouquet';
+import VDay2026 from './pages/VDay2026';
 import { auth } from './firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import './styles.css';
@@ -33,8 +34,12 @@ function App() {
           element={user ? <FeedPage /> : <Navigate to="/" />} 
         />
         <Route 
-          path="/nami" 
+          path="/vday25" 
           element={user ? <FlowerBouquet/> : <Navigate to="/" />} 
+        />
+        <Route 
+          path="/vday2026" 
+          element={user ? <VDay2026 /> : <Navigate to="/" />} 
         />
         <Route
           path="/spotify"
