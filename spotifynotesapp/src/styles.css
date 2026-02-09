@@ -344,3 +344,261 @@ button:hover {
   max-width: 420px;
 }
 
+/* ----- Wordle game ----- */
+.wordle-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  padding: 16px 8px;
+  position: relative;
+  max-width: 500px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Toast message */
+.wordle-message {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1a1a1a;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 15px;
+  z-index: 10;
+  animation: fadeInMsg 0.15s ease;
+}
+@keyframes fadeInMsg {
+  from { opacity: 0; transform: translateX(-50%) translateY(-8px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* Board */
+.wordle-board {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+.wordle-row {
+  display: flex;
+  gap: 6px;
+}
+
+/* Tiles */
+.wordle-tile {
+  width: 56px;
+  height: 56px;
+  position: relative;
+  perspective: 500px;
+}
+.wordle-tile-front,
+.wordle-tile-back {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  font-weight: 700;
+  text-transform: uppercase;
+  border-radius: 4px;
+  backface-visibility: hidden;
+  transition: transform 0.3s ease;
+}
+.wordle-tile-front {
+  border: 2px solid var(--border);
+  background: var(--surface);
+  color: var(--heading);
+}
+.wordle-tile-back {
+  transform: rotateX(180deg);
+  color: #fff;
+  border: none;
+}
+
+/* Empty tile */
+.wordle-tile.empty .wordle-tile-front {
+  border-color: var(--border);
+}
+
+/* Filled (typing) tile */
+.wordle-tile.filled .wordle-tile-front {
+  border-color: #878a8c;
+  animation: popIn 0.08s ease;
+}
+@keyframes popIn {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+/* Flip animation for revealing */
+.wordle-tile.flip .wordle-tile-front {
+  animation: flipFront 0.5s ease forwards;
+  animation-delay: inherit;
+}
+.wordle-tile.flip .wordle-tile-back {
+  animation: flipBack 0.5s ease forwards;
+  animation-delay: inherit;
+}
+@keyframes flipFront {
+  0%   { transform: rotateX(0deg); }
+  50%  { transform: rotateX(90deg); }
+  100% { transform: rotateX(90deg); }
+}
+@keyframes flipBack {
+  0%   { transform: rotateX(180deg); }
+  50%  { transform: rotateX(180deg); }
+  51%  { transform: rotateX(0deg); opacity: 1; }
+  100% { transform: rotateX(0deg); opacity: 1; }
+}
+
+/* Revealed (already flipped) tiles */
+.wordle-tile.revealed .wordle-tile-front {
+  transform: rotateX(90deg);
+}
+.wordle-tile.revealed .wordle-tile-back {
+  transform: rotateX(0deg);
+}
+
+/* Tile colors */
+.wordle-tile.correct .wordle-tile-back { background: #6aaa64; }
+.wordle-tile.present .wordle-tile-back { background: #c9b458; }
+.wordle-tile.absent  .wordle-tile-back { background: #787c7e; }
+
+/* Shake animation for invalid guess */
+.wordle-row.shake {
+  animation: shakeRow 0.5s ease;
+}
+@keyframes shakeRow {
+  0%, 100% { transform: translateX(0); }
+  10%, 50%, 90% { transform: translateX(-4px); }
+  30%, 70% { transform: translateX(4px); }
+}
+
+/* Keyboard */
+.wordle-keyboard {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  max-width: 500px;
+}
+.wordle-kb-row {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+}
+.wordle-key {
+  height: 52px;
+  min-width: 32px;
+  padding: 0 8px;
+  border: none;
+  border-radius: 6px;
+  background: #d3d6da;
+  color: #1a1a1a;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: background 0.15s, color 0.15s;
+  flex: 1;
+  max-width: 44px;
+}
+.wordle-key.wide {
+  max-width: 66px;
+  flex: 1.5;
+  font-size: 12px;
+}
+.wordle-key:hover {
+  opacity: 0.85;
+}
+.wordle-key.correct {
+  background: #6aaa64;
+  color: #fff;
+}
+.wordle-key.present {
+  background: #c9b458;
+  color: #fff;
+}
+.wordle-key.absent {
+  background: #787c7e;
+  color: #fff;
+}
+
+/* End state */
+.wordle-end {
+  text-align: center;
+  margin: 12px 0;
+}
+.wordle-win-text {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--heading);
+  margin: 0 0 12px;
+}
+.wordle-lose-text {
+  font-size: 1rem;
+  color: var(--text-muted);
+  margin: 0 0 12px;
+}
+.wordle-play-again {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 10px 24px;
+  border-radius: var(--radius);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.wordle-play-again:hover {
+  opacity: 0.9;
+}
+
+/* Win text animation */
+.wordle-win-text {
+  animation: winPulse 1.5s ease infinite;
+}
+@keyframes winPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+/* Confetti */
+.confetti-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1000;
+}
+.confetti-piece {
+  position: absolute;
+  top: -12px;
+  border-radius: 2px;
+  opacity: 1;
+  animation: confettiFall ease forwards;
+}
+@keyframes confettiFall {
+  0% {
+    transform: translateY(0) translateX(0) rotate(0deg);
+    opacity: 1;
+  }
+  25% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) translateX(var(--drift, 0px)) rotate(calc(var(--rotation, 0deg) + 720deg));
+    opacity: 0;
+  }
+}
+

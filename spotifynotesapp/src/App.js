@@ -5,6 +5,7 @@ import FeedPage from './pages/FeedPage';
 import SpotifyPage from './pages/SpotifyPage';
 import FlowerBouquet from './pages/FlowerBouquet';
 import VDay2026 from './pages/VDay2026';
+import LetterMaze from './pages/LetterMaze';
 import { auth } from './firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import './styles.css';
@@ -40,6 +41,10 @@ function App() {
         <Route 
           path="/vday2026" 
           element={user ? <VDay2026 /> : <Navigate to="/" />} 
+        />
+        <Route 
+          path="/vday26" 
+          element={user ? <LetterMaze /> : <Navigate to="/" />} 
         />
         <Route
           path="/spotify"

@@ -26,19 +26,19 @@ const VDay2026 = () => {
             <Link to="/feed">Feed</Link>
             <Link to="/spotify">Spotify</Link>
             <Link to="/vday25">V-Day 2025</Link>
-            <Link to="/vday2026">V-Day 2026</Link>
+            <Link to="/vday26">V-Day 2026</Link>
           </li>
           <li>
             <button onClick={handleLogout}>Logout</button>
           </li>
         </ul>
       </nav>
-      <h2>V-Day 2026</h2>
+      <h2>One Year</h2>
       <div className="vday2026-content">
         <div className="vday2026-video-wrapper">
           {YOUTUBE_VIDEO_ID ? (
             <iframe
-              title="V-Day 2026"
+              title="One Year"
               src={`https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?autoplay=0`}
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
